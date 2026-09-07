@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 
 public class MenuWindow extends JFrame {
 
@@ -21,7 +20,7 @@ public class MenuWindow extends JFrame {
 
         this.setVisible(true);
     }
-    // test
+
     private void viewInit() {
         this.setLayout(new BorderLayout());
         JPanel panelNorth = new JPanel();
