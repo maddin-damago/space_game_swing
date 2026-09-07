@@ -21,7 +21,7 @@ public class MenuWindow extends JFrame {
 
         this.setVisible(true);
     }
-
+    // test
     private void viewInit() {
         this.setLayout(new BorderLayout());
         JPanel panelNorth = new JPanel();
