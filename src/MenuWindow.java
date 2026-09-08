@@ -1,10 +1,14 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MenuWindow extends JFrame {
+public class MenuWindow extends JFrame implements ActionListener {
 
     private int width = 600;
     private int height = 400;
+    private GameWindow gameWindow;
+    private boolean gameRunning, musicRunning;
 
     private JButton toggleGame, toggleMusic;
 
@@ -19,6 +23,9 @@ public class MenuWindow extends JFrame {
         viewInit();
 
         this.setVisible(true);
+
+        toggleGame.addActionListener(this);
+        toggleMusic.addActionListener(this);
     }
 
     private void viewInit() {
@@ -28,7 +35,7 @@ public class MenuWindow extends JFrame {
         panelNorth.setLayout(new FlowLayout());
 
         toggleGame = new JButton("Toggle Game");
-        toggleGame.setText("Toggle Game");
+        toggleGame.setText("Start Game");
         panelNorth.add(toggleGame);
         toggleMusic = new JButton("Toggle Music");
         toggleMusic.setText("Toggle Music");
@@ -43,10 +50,12 @@ public class MenuWindow extends JFrame {
         gameManual.setMargin(new Insets(30, 30, 30, 30));
         gameManual.setFont(new Font("Arial", Font.ITALIC, 20));
 
-        gameManual.setText("Beware, Spock \r\n" +
-            "It's Chewbacca \r\n" +
-            "Set Phasers to 'StUnNiNg' \n\n" +
-                "This is TREK WARS");
+        gameManual.setText("""
+                Beware, Spock \r
+                It's Chewbacca \r
+                Set Phasers to 'StUnNiNg'\s
+                
+                This is TREK WARS""");
 
         panelCenter.add(gameManual);
 
@@ -54,5 +63,22 @@ public class MenuWindow extends JFrame {
         this.add(panelCenter, BorderLayout.CENTER);
 
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == toggleGame) {
+            if (!gameRunning) {
+                gameWindow = new GameWindow();
+                toggleGame.setText("Stop Game");
+                gameRunning = true;
+            } else {
+                gameWindow.dispose();
+                toggleGame.setText("Start Game");
+                gameRunning = false;
+            }
+        } else {
+            System.out.println("Music");
+        }
     }
 }
