@@ -68,7 +68,6 @@ public class MenuWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == toggleGame) {
-            System.out.println("Game");
             if (!gameRunning) {
                 gameWindow = new GameWindow();
                 toggleGame.setText("Stop Game");

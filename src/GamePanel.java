@@ -95,16 +95,28 @@ public class GamePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(leftPressed) {
+        if (leftPressed) {
+            if (shipPosX <= 0) {
+                shipPosX = gamePanelWidth;
+            }
             shipPosX -= speed;
         }
-        if(rightPressed) {
+        if (rightPressed) {
+            if (shipPosX >= gamePanelWidth) {
+                shipPosX = 0;
+            }
             shipPosX += speed;
         }
-        if(upPressed) {
+        if (upPressed) {
+            if (shipPosY <= 0) {
+                shipPosY = gamePanelHeight;
+            }
             shipPosY -= speed;
         }
-        if(downPressed) {
+        if (downPressed) {
+            if (shipPosY >= gamePanelHeight) {
+                shipPosY = 0;
+            }
             shipPosY += speed;
         }
 
