@@ -7,6 +7,8 @@ public class MenuWindow extends JFrame implements ActionListener {
 
     private int width = 600;
     private int height = 400;
+    private GameWindow gameWindow;
+    private boolean gameRunning, musicRunning;
 
     private JButton toggleGame, toggleMusic;
 
@@ -33,7 +35,7 @@ public class MenuWindow extends JFrame implements ActionListener {
         panelNorth.setLayout(new FlowLayout());
 
         toggleGame = new JButton("Toggle Game");
-        toggleGame.setText("Toggle Game");
+        toggleGame.setText("Start Game");
         panelNorth.add(toggleGame);
         toggleMusic = new JButton("Toggle Music");
         toggleMusic.setText("Toggle Music");
@@ -67,8 +69,16 @@ public class MenuWindow extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == toggleGame) {
             System.out.println("Game");
-            new GameWindow();
-        }  else {
+            if (!gameRunning) {
+                gameWindow = new GameWindow();
+                toggleGame.setText("Stop Game");
+                gameRunning = true;
+            } else {
+                gameWindow.dispose();
+                toggleGame.setText("Start Game");
+                gameRunning = false;
+            }
+        } else {
             System.out.println("Music");
         }
     }
