@@ -9,17 +9,21 @@ import java.io.File;
 import java.io.IOException;
 
 public class GamePanel extends JPanel implements ActionListener {
-    private int gamePanelWidth, gamePanelHeight;
+    private final int gamePanelWidth, gamePanelHeight;
+    private final int shipWidth, shipHeight;
     private int shipPosX, shipPosY;
-    private int shipWidth, shipHeight;
 
-    private Image spaceShip;
+    private final Image spaceShip;
 
     private boolean leftPressed, rightPressed, upPressed, downPressed;
 
-    private int speed = 10; // step in px
-    private int delay = 40; // ms delay for repaint
-    private Timer timer = new Timer(delay, this);
+    private final int speed = 10; // step in px
+    private final int delay = 40; // ms delay for repaint
+    private final Timer timer = new Timer(delay, this);
+
+    private Color starColor = Color.YELLOW;
+    private int starWidth = 15, starHeight = 15;
+    private int starPosX = 60, starPosY = 60;
 
     public GamePanel(int w, int h) {
         this.gamePanelWidth = w;
@@ -90,20 +94,31 @@ public class GamePanel extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(spaceShip, shipPosX, shipPosY, shipWidth, shipHeight, null);
+
+        g.setColor(Color.GREEN);
+        g.drawString("Explored Stars: ", 5, 30);
+
+        g.setColor(starColor);
+        g.fillOval(starPosX, starPosY, starWidth, starHeight);
+
+        if (rightPressed) {
+            g.drawImage(spaceShip, shipPosX, shipPosY, shipWidth, shipHeight, null);
+        } else {
+            g.drawImage(spaceShip, shipPosX + shipWidth, shipPosY, -shipWidth, shipHeight, null);
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (leftPressed) {
-            if (shipPosX <=  -shipWidth) {
+            if (shipPosX <= -shipWidth) {
                 shipPosX = gamePanelWidth + shipWidth;
             }
             shipPosX -= speed;
         }
         if (rightPressed) {
             if (shipPosX >= gamePanelWidth) {
-                shipPosX =  -shipWidth;
+                shipPosX = -shipWidth;
             }
             shipPosX += speed;
         }
@@ -115,7 +130,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         if (downPressed) {
             if (shipPosY >= gamePanelHeight) {
-                shipPosY =  -shipHeight;
+                shipPosY = -shipHeight;
             }
             shipPosY += speed;
         }
