@@ -28,9 +28,13 @@ public class GameWindow extends JFrame {
 //                "\nborder Bottom: " + borderBottomPixel);
 
         this.gamePanel = new GamePanel(width - borderRightPixel - borderLeftPixel,
-                    height - titleHeightPixel - borderBottomPixel
-                );
+                height - titleHeightPixel - borderBottomPixel
+        );
 
         this.add(gamePanel);
+    }
+
+    public Timer getTimer() {
+        return gamePanel.getTimer();
     }
 }
