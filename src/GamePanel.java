@@ -41,7 +41,6 @@ public class GamePanel extends JPanel implements ActionListener {
         this.shipHeight = 60;
 
 
-
         this.setBackground(Color.BLACK);
         this.setFocusable(true);
         this.requestFocusInWindow();
@@ -140,30 +139,29 @@ public class GamePanel extends JPanel implements ActionListener {
         }
 
         if (leftPressed) {
+            if (shipPosX <= -shipWidth) {
+                shipPosX = gamePanelWidth + shipWidth;
+            }
             shipPosX -= speed;
         }
         if (rightPressed) {
+            if (shipPosX >= gamePanelWidth) {
+                shipPosX = -shipWidth;
+            }
             shipPosX += speed;
         }
         if (upPressed) {
+            if (shipPosY <= -shipHeight) {
+                shipPosY = gamePanelHeight + shipHeight;
+            }
             shipPosY -= speed;
         }
         if (downPressed) {
+            if (shipPosY >= gamePanelHeight) {
+                shipPosY = -shipHeight;
+            }
             shipPosY += speed;
         }
-        if (shipPosX <= -shipWidth) {
-            shipPosX = gamePanelWidth + shipWidth;
-        }
-        if (shipPosX >= gamePanelWidth) {
-            shipPosX = -shipWidth;
-        }
-        if (shipPosY <= -shipHeight) {
-            shipPosY = gamePanelHeight + shipHeight;
-        }
-        if (shipPosY >= gamePanelHeight) {
-            shipPosY = -shipHeight;
-        }
-
         this.repaint();
 
     }
@@ -174,6 +172,9 @@ public class GamePanel extends JPanel implements ActionListener {
         int shipPosYStart = shipPosY;
         int shipPosYEnd = shipPosY + shipHeight;
 
-        return shipPosXStart <= starPosX && shipPosXEnd >= starPosX && shipPosYStart <= starPosY && shipPosYEnd >= starPosY;
+        return shipPosXStart <= starPosX + starWidth
+                && shipPosXEnd >= starPosX
+                && shipPosYStart <= starPosY + starHeight
+                && shipPosYEnd >= starPosY;
     }
 }
