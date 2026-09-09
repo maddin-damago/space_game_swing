@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MenuWindow extends JFrame implements ActionListener {
 
@@ -61,8 +63,6 @@ public class MenuWindow extends JFrame implements ActionListener {
 
         this.add(panelNorth, BorderLayout.NORTH);
         this.add(panelCenter, BorderLayout.CENTER);
-
-
     }
 
     @Override
@@ -70,9 +70,19 @@ public class MenuWindow extends JFrame implements ActionListener {
         if (e.getSource() == toggleGame) {
             if (!gameRunning) {
                 gameWindow = new GameWindow();
+                gameWindow.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        super.windowClosing(e);
+                        gameRunning = false;
+                        toggleGame.setText("Start Game");
+                        gameWindow.getTimer().stop();
+                    }
+                });
                 toggleGame.setText("Stop Game");
                 gameRunning = true;
             } else {
+                gameWindow.getTimer().stop();
                 gameWindow.dispose();
                 toggleGame.setText("Start Game");
                 gameRunning = false;
