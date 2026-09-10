@@ -1,9 +1,15 @@
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequencer;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class MenuWindow extends JFrame implements ActionListener {
 
@@ -13,6 +19,7 @@ public class MenuWindow extends JFrame implements ActionListener {
     private boolean gameRunning, musicRunning;
 
     private JButton toggleGame, toggleMusic;
+    private Sequencer sequencer;
 
     public MenuWindow() {
         this.setTitle("MenuWindow");
@@ -40,7 +47,7 @@ public class MenuWindow extends JFrame implements ActionListener {
         toggleGame.setText("Start Game");
         panelNorth.add(toggleGame);
         toggleMusic = new JButton("Toggle Music");
-        toggleMusic.setText("Toggle Music");
+        toggleMusic.setText("Start Music");
         panelNorth.add(toggleMusic);
 
         JPanel panelCenter = new JPanel();
@@ -88,7 +95,31 @@ public class MenuWindow extends JFrame implements ActionListener {
                 gameRunning = false;
             }
         } else {
-            System.out.println("Music");
+            if (!musicRunning) {
+                try {
+                    startMusic();
+                    toggleMusic.setText("Stop Music");
+                    musicRunning = true;
+                } catch (MidiUnavailableException | InvalidMidiDataException | IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+            } else {
+                sequencer.stop();
+                toggleMusic.setText("Start Music");
+                musicRunning = false;
+            }
         }
+    }
+
+    private void startMusic() throws MidiUnavailableException, InvalidMidiDataException, IOException {
+        sequencer = MidiSystem.getSequencer();
+        var synthesizer = MidiSystem.getSynthesizer();
+        var singleSequence = MidiSystem.getSequence(new File("assets/pokemon.mid"));
+        synthesizer.loadAllInstruments(synthesizer.getDefaultSoundbank());
+
+        sequencer.open();
+        sequencer.setSequence(singleSequence);
+        synthesizer.open();
+        sequencer.start();
     }
 }
