@@ -25,8 +25,8 @@ public class GamePanel extends JPanel implements ActionListener {
     private int points = 0;
     private boolean starExplored = false;
 
-    private Color starColor = Color.YELLOW;
-    private int starWidth = 15, starHeight = 15;
+    private final Color starColor = Color.YELLOW;
+    private final int starWidth = 15, starHeight = 15;
     private int starPosX = 60, starPosY = 60;
 
     private int starFreqCountdown;
